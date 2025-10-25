@@ -1,0 +1,11 @@
+services:
+  node-app:
+    build: .
+    container_name: todo-app-backend-yml
+    ports:
+      - "3123:3000" # 宿主机 3123 映射容器 3000
+    environment:
+      - DEBUG=app:* # 设置环境变量
+    volumes:
+      - .:/usr/src/app # 可选：挂载代码，方便修改立即生效
+    command: npm start # 可以覆盖 Dockerfile CMD，如果不写就默认 CMD
