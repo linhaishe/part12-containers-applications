@@ -1,0 +1,20 @@
+Script started, output log file is 'script-answers/exercise12_3.txt'.
+# nano /usr/src/app/index.js    ^[[C
+# cat /usr/src/app/index.js    
+
+console.log('Hello World')
+console.log('Hello World')
+console.log('Hello World')
+# exit
+Script done.
+root@b7b95f6b3de0:/# cat script-answers/exercise12_3.txt
+Script started on 2025-10-25 05:57:32+00:00 [TERM="xterm" TTY="/dev/pts/0" COLUMNS="111" LINES="56"]
+# nano /usr/src/app/index.js    ^[[C
+# cat /usr/src/app/index.js    
+
+console.log('Hello World')
+console.log('Hello World')
+console.log('Hello World')
+# exit
+
+Script done on 2025-10-25 05:58:40+00:00 [COMMAND_EXIT_CODE="0"]
