@@ -33,28 +33,19 @@ singleRouter.delete("/", async (req, res) => {
   res.sendStatus(200);
 });
 
-/* GET todo. */
-singleRouter.get("/:id", async (req, res) => {
-  // res.sendStatus(405); // Implement this
-  const todo = await Todo.findById(id);
-  res.send(todo);
+/* GET single todo */
+singleRouter.get("/", async (req, res) => {
+  res.json(req.todo);
 });
 
-/* PUT todo. */
-singleRouter.put("/:id", async (req, res, next) => {
+/* PUT todo */
+singleRouter.put("/", async (req, res, next) => {
   try {
-    const { id } = req.params;
     const { text, done } = req.body;
+    req.todo.text = text;
+    req.todo.done = done;
 
-    const todo = await Todo.findById(id);
-    if (!todo) {
-      return res.status(404).json({ error: "todo not found" });
-    }
-
-    todo.text = text;
-    todo.done = done;
-
-    const updatedTodo = await todo.save();
+    const updatedTodo = await req.todo.save();
     res.json(updatedTodo);
   } catch (err) {
     next(err);
