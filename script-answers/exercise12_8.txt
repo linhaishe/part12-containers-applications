@@ -1,0 +1,48 @@
+Script started on Sun Oct 26 13:39:36 2025
+[1m[7m%[27m[1m[0m                                                                                                                     
+ 
+]2;chenruo@chenruodeMacBook-Pro:~/Documents/GitHub/part12-containers-applications]1;..-applications]7;file://chenruodeMacBook-Pro.local/Users/chenruo/Documents/GitHub/part12-containers-applications\
+[0m[27m[24m[J[01;32m➜  [36mpart12-containers-applications[00m [K[?1h=[?2004h
+
+[0m[27m[24m[J[01;32m➜  [36mpart12-containers-applications[00m [01;34mgit:([31mmain[34m) [33m✗[00m [Kscript script-answers/exercise12_8.txt[38Dexit                                  [34Ddocker exec -it todo-backend-mongo-1 mongosh -u root -p example[?1l>[?2004l
+
+]2;docker exec -it todo-backend-mongo-1 mongosh -u root -p example]1;docker]0;mongosh mongodb://<credentials>@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000Current Mongosh Log ID:	68fdb41c5b24f693ce4f87fd
+Connecting to:		[1m[32mmongodb://<credentials>@127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.8[0m
+Using MongoDB:		8.0.15
+[1m[33mUsing Mongosh[0m:		2.5.8
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+[1G[0J [1G[?2004h[1m[33m------[0m
+   [1m[33mThe server generated these startup warnings when booting[0m
+   2025-10-26T04:08:54.558+00:00: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine. See http://dochub.mongodb.org/core/prodnotes-filesystem
+   2025-10-26T04:08:54.884+00:00: For customers running the current memory allocator, we suggest changing the contents of the following sysfsFile
+   2025-10-26T04:08:54.884+00:00: We suggest setting the contents of sysfsFile to 0.
+   2025-10-26T04:08:54.884+00:00: vm.max_map_count is too low
+   2025-10-26T04:08:54.884+00:00: We suggest setting swappiness to 0 or 1, as swapping can cause performance problems.
+[1m[33m------[0m
+
+[1G[0Jtest> [7G[1G[0Jtest> db.todos.insertOne({[33mtest[39m: [32m"Increase the number of tools in my tool belt2"[39m, [33mdone[39m: [33mfalse[39m})[95G[1G[0Jtest> db.todos.find({})[24G[1G[0Jtest> use the_database[23G[1G[0Jtest> show dbs[15G
+
+[1madmin[0m         100.00 KiB
+[1mconfig[0m         72.00 KiB
+[1mlocal[0m          72.00 KiB
+[1mthe_database[0m   72.00 KiB
+[1G[0Jtest> [7G[1G[0Jtest> show dbs[15G[1G[0Jtest> db.todos.insertOne({[33mtest[39m: [32m"Increase the number of tools in my tool belt2"[39m, [33mdone[39m: [33mfalse[39m})[95G[1G[0Jtest> db.todos.find({})[24G[1G[0Jtest> use the_database[23G[1G[0Jtest> show dbs[15G[1G[0Jtest> use the_database[23G
+
+switched to db the_database
+[1G[0Jthe_database> [15G[1G[0Jthe_database> use the_database[31G[1G[0Jthe_database> show dbs[23G[1G[0Jthe_database> db.todos.insertOne({[33mtest[39m: [32m"Increase the number of tools in my tool belt2"[39m, [33mdone[39m: [33mfalse[39m})[103G[1D[1G[0Jthe_database> db.todos.insertOne[44m([49m{[33mtest[39m: [32m"Increase the number of tools in my tool belt2"[39m, [33mdone[39m: [33mfalse[39m})[102G[1D[1G[0Jthe_database> db.todos.insertOne([44m{[49m[33mtest[39m: [32m"Increase the number of tools in my tool belt2"[39m, [33mdone[39m: [33mfalse[39m})[101G[1D[1G[0Jthe_database> db.todos.insertOne({[33mtest[39m: [32m"Increase the number of tools in my tool belt2"[39m, [33mdone[39m: [33mfalse[39m})[100G[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1G[0Jthe_database> db.todos.insertOne({[33mtest[39m: [44m[32m"[49mIncrease the number of tools in my tool belt2"[39m, [33mdone[39m: [33mfalse[39m})[87G[1D[1G[0Jthe_database> db.todos.insertOne({[33mtest[39m: [32m"Increase the number of tools in my tool belt2"[39m, [33mdone[39m: [33mfalse[39m})[86G[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1D[1G[0Jthe_database> db.todos.insertOne({[33mtest[39m: [32m"Increase the number of tools in my tool belt2[44m"[39m[49m, [33mdone[39m: [33mfalse[39m})[41G[1D[1G[0Jthe_database> db.todos.insertOne({[33mtest[39m: [32m"Increase the number of tools in my tool belt2"[39m, [33mdone[39m: [33mfalse[39m})[40G[1D[1D[1G[0Jthe_database> db.todos.insertOne({[33mtet[39m: [32m"Increase the number of tools in my tool belt2"[39m, [33mdone[39m: [33mfalse[39m})[37G[1G[0Jthe_database> db.todos.insertOne({[33mtext[39m: [32m"Increase the number of tools in my tool belt2"[39m, [33mdone[39m: [33mfalse[39m})[38G[1C[1C[1C[1G[0Jthe_database> db.todos.insertOne({[33mtext[39m: [32m"Increase the number of tools in my tool belt2[44m"[39m[49m, [33mdone[39m: [33mfalse[39m})[41G[1C[1G[0Jthe_database> db.todos.insertOne({[33mtext[39m: [32m"Increase the number of tools in my tool belt2"[39m, [33mdone[39m: [33mfalse[39m})[42G[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1C[1G[0Jthe_database> db.todos.insertOne({[33mtext[39m: [44m[32m"[49mIncrease the number of tools in my tool belt2"[39m, [33mdone[39m: [33mfalse[39m})[87G[1G[0Jthe_database> db.todos.insertOne({[33mtext[39m: [44m[32m"[49mIncrease the number of tools in my tool belt"[39m, [33mdone[39m: [33mfalse[39m})[86G[16C[1G[0Jthe_database> db.todos.insertOne({[33mtext[39m: [32m"Increase the number of tools in my tool belt"[39m, [33mdone[39m: [33mfalse[39m})[102G
+
+{
+  acknowledged: [33mtrue[39m,
+  insertedId: ObjectId([32m'68fdb4355b24f693ce4f87fe'[39m)
+}
+[1G[0Jthe_database> [15Gexit
+
+[?2004l[1m[7m%[27m[1m[0m                                                                                                                     
+ 
+]2;chenruo@chenruodeMacBook-Pro:~/Documents/GitHub/part12-containers-applications]1;..-applications]7;file://chenruodeMacBook-Pro.local/Users/chenruo/Documents/GitHub/part12-containers-applications\
+[0m[27m[24m[J[01;32m➜  [36mpart12-containers-applications[00m [01;34mgit:([31mmain[34m) [33m✗[00m [K[?1h=[?2004heexit[?1l>[?2004l
+
+]2;exit]1;exit
+Script done on Sun Oct 26 13:40:12 2025
