@@ -3,6 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      target: test-stage
       args:
         VITE_API_URL: ${VITE_API_URL} # 从 .env 或环境变量注入 todo-backend-mongo-1
     ports:

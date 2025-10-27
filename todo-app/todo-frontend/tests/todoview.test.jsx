@@ -1,18 +1,56 @@
-/* eslint-disable no-undef */
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import TodoView from "../src/Todos/TodoView";
+// tests/todoview.test.jsx
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { render, screen, fireEvent } from "@testing-library/react";
+import TodoView from "../src/Todos/TodoView.jsx";
+// tests/setupTests.js
+import "@testing-library/jest-dom";
+import axios from "axios";
+import { waitFor } from "@testing-library/react";
+import apiClient from '../src/util/apiClient'
 
-test("a new todo can be created", async () => {
-  render(<TodoView />);
+// Mock axios，保留 create 方法
+vi.mock('../src/util/apiClient', () => ({
+  default: {
+    get: vi.fn(() => Promise.resolve({ data: [] })),
+    post: vi.fn((url, todo) => Promise.resolve({ data: { id: 1, ...todo } })),
+  }
+}))
 
-  const input = screen.getByRole("textbox");
-  await userEvent.type(input, "Learn about containers");
+describe("TodoView", () => {
+  beforeEach(() => {
+    vi.clearAllMocks(); // 清理每个测试的 mock 调用
+  });
 
-  const button = screen.getByRole("button", { name: /submit/i });
-  await userEvent.click(button);
+  it("renders the form", () => {
+    render(<TodoView />);
+    // const heading = screen.getByRole('heading', { name: /todos/i })
+    // expect(heading).toBeInTheDocument()
 
-  // 使用 getAllByText
-  const todoItems = screen.getAllByText("Learn about containers");
-  expect(todoItems.length).toBeGreaterThan(0);
+    const input = screen.getByRole("textbox");
+    expect(input).toBeInTheDocument();
+
+    const button = screen.getByRole("button", { name: /submit/i });
+    expect(button).toBeInTheDocument();
+  });
+
+  it("creates a new todo", async () => {
+    render(<TodoView />);
+
+    const input = screen.getByRole("textbox");
+    const button = screen.getByRole("button", { name: /submit/i });
+
+    // 输入 todo
+    fireEvent.change(input, { target: { value: "Learn about containers" } });
+    expect(input.value).toBe("Learn about containers");
+
+    // 提交表单
+    fireEvent.click(button);
+
+    // 等待 axios.post 调用
+    await waitFor(() => {
+      expect(apiClient.post).toHaveBeenCalledWith("/todos", {
+        text: "Learn about containers",
+      });
+    });
+  });
 });
