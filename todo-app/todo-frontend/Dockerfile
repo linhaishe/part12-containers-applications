@@ -25,7 +25,7 @@ COPY --from=build-stage /usr/src/app /usr/src/app
 # 设置 CI 环境，保证 Vitest 等测试工具在非交互环境下正确退出
 ENV CI=true
 
-# 运行测试，如果失败，构建会失败
+# ✅ 运行测试：如果 Vitest 返回非 0，Docker build 会失败
 RUN npm run test
 
 # ==========================
@@ -34,8 +34,8 @@ RUN npm run test
 FROM nginx:1.25-alpine AS production
 WORKDIR /usr/share/nginx/html
 
-# 只拷贝 build-stage 的 dist 文件
-COPY --from=build-stage /usr/src/app/dist .
+# 👇 production 阶段依赖 test-stage
+COPY --from=test-stage /usr/src/app/dist .
 
 # 自定义 Nginx 配置
 COPY nginx.conf /etc/nginx/conf.d/default.conf
