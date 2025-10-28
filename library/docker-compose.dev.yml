@@ -1,0 +1,49 @@
+services:
+  library-frontend:
+    build:
+      context: ./library-frontend
+      dockerfile: dev.Dockerfile
+    container_name: library-frontend-dev
+    volumes:
+      - ./library-frontend:/usr/src/app   # 挂载源码，热更新生效
+      - /usr/src/app/node_modules         # 防止覆盖 node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true      # Vite 热更新在容器里生效
+    command: npm run dev -- --host 0.0.0.0
+  
+  library-backend-mongodb:
+    build:
+      context: ./library-backend-mongodb
+      dockerfile: dev.Dockerfile
+    container_name: library-backend-mongodb-dev
+    volumes:
+      - ./library-backend-mongodb:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - PORT=4000
+      - MONGO_URL=mongodb://root:example@mongo:27017/the_database?authSource=admin
+    ports:
+      - "4000:4000"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    container_name: library-mongo-dev
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+      - MONGO_INITDB_DATABASE=the_database
+    volumes:
+      - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+
+  nginx:
+    image: nginx:1.20.1
+    volumes:
+      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8080:80
+    container_name: library-reverse-proxy-dev
+    depends_on:
+      - library-frontend
+      - library-backend-mongodb

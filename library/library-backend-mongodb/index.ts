@@ -47,6 +47,7 @@ const start = async () => {
 
   const server = new ApolloServer({
     schema,
+    csrfPrevention: false, // 开发的时候启用
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),
       {
