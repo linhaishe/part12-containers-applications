@@ -1,0 +1,71 @@
+services:
+  todo-frontend:
+    build:
+      context: ./todo-frontend # The context will pick this directory as the "build context"
+      dockerfile: dev.Dockerfile # This will simply tell which dockerfile to read
+    ports:
+      - "5173:5173" # Vite 默认端口
+    container_name: todo-frontend-dev-1 # This will name the container hello-front-dev
+    volumes:
+      - ./todo-frontend:/usr/src/app # 挂载本地代码到容器中 The path can be relative, so ./ is enough to say "the same location as the docker-compose.yml"
+      - /usr/src/app/node_modules # 防止覆盖 node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true # 让热更新在容器中工作（重要）
+    command: npm run dev
+
+  todo-backend:
+    build:
+      context: ./todo-backend
+      dockerfile: dev.Dockerfile
+    container_name: todo-backend-dev-1
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./todo-backend:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - PORT=3000
+      - REDIS_URL=redis://redis:6379
+      - MONGO_URL=mongodb://root:example@mongo:27017/the_database?authSource=admin
+    depends_on:
+      - mongo
+      - redis
+
+  # debug-helper:
+  #   image: busybox
+
+  nginx:
+    image: nginx:1.20.1
+    volumes:
+      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8080:80
+    container_name: reverse-proxy-1
+    depends_on:
+      # wait for the frontend container to be started
+      - todo-frontend
+      - todo-backend
+
+  mongo:
+    image: mongo
+    container_name: todo-mongo-dev-1
+    ports:
+      - "3458:27017"   # 宿主机端口映射，可选
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+      - MONGO_INITDB_DATABASE=the_database
+    volumes:
+      - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+
+  redis:
+    image: redis
+    container_name: todo-redis-dev-1
+    ports:
+      - "3490:6379"    # 宿主机端口映射，可选
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - ./redis_data:/data
+
+# docker compose -f docker-compose.dev.yml up
+# can run the application in development mode, You don't even need Node installed to develop 
