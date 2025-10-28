@@ -5,35 +5,33 @@ services:
       dockerfile: dev.Dockerfile
     container_name: todo-backend-dev
     ports:
-      - "3000:3000"
+      - "3000:3000"  # 你的后端端口
     volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+      - .:/usr/src/app                 # 挂载源码
+      - /usr/src/app/node_modules      # 防止覆盖 node_modules
     environment:
-      - PORT=3000
       - REDIS_URL=redis://redis:6379
-      - MONGO_URL=mongodb://root:example@mongo:27017/the_database?authSource=admin
+      - MONGO_URL=mongodb://mongo:27017/the_database?authSource=admin
+    command: npm run dev
     depends_on:
       - mongo
       - redis
 
   mongo:
     image: mongo
-    container_name: todo-mongo-dev
     ports:
-      - "3456:27017"   # 宿主机端口映射，可选
+      - "3456:27017"
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=example
-      - MONGO_INITDB_DATABASE=the_database
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: the_database
     volumes:
       - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
 
   redis:
     image: redis
-    container_name: todo-redis-dev
     ports:
-      - "3490:6379"    # 宿主机端口映射，可选
+      - "3490:6379"
     command: ["redis-server", "--appendonly", "yes"]
     volumes:
       - ./redis_data:/data

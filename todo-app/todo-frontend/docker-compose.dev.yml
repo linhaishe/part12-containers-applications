@@ -16,3 +16,5 @@ services:
 
 # docker compose -f docker-compose.dev.yml up
 # can run the application in development mode, You don't even need Node installed to develop 
+  # debug-helper:
+  #   image: busybox
