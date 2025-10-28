@@ -14,7 +14,20 @@ services:
       - CHOKIDAR_USEPOLLING=true # 让热更新在容器中工作（重要）
     command: npm run dev
 
-# docker compose -f docker-compose.dev.yml up
-# can run the application in development mode, You don't even need Node installed to develop 
+
   # debug-helper:
   #   image: busybox
+
+  nginx:
+    image: nginx:1.20.1
+    volumes:
+      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8080:80
+    container_name: reverse-proxy
+    depends_on:
+      - app # wait for the frontend container to be started
+
+
+# docker compose -f docker-compose.dev.yml up
+# can run the application in development mode, You don't even need Node installed to develop 
