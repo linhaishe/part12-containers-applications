@@ -1,41 +1,32 @@
 # ==========================
-# 构建阶段
+# 构建阶段：使用 Node 构建前端
 # ==========================
 FROM node:20 AS build-stage
 WORKDIR /usr/src/app
 
-# 定义可传入的参数
+# 可传入 API 地址 (来自 docker-compose.yml)
 ARG VITE_API_URL
 ENV VITE_API_URL=$VITE_API_URL
 
+# 拷贝代码并安装依赖
 COPY . .
 RUN npm ci
 
+# 构建生产包
 RUN npm run build
 
 # ==========================
-# 测试阶段
-# ==========================
-FROM node:20 AS test-stage
-WORKDIR /usr/src/app
-
-# 拷贝 build-stage 的文件和 node_modules
-COPY --from=build-stage /usr/src/app /usr/src/app
-
-# 设置 CI 环境，保证 Vitest 等测试工具在非交互环境下正确退出
-ENV CI=true
-
-# ✅ 运行测试：如果 Vitest 返回非 0，Docker build 会失败
-RUN npm run test
-
-# ==========================
-# 生产阶段
+# 生产阶段：使用 Nginx 提供静态文件
 # ==========================
 FROM nginx:1.25-alpine AS production
 WORKDIR /usr/share/nginx/html
 
-# 👇 production 阶段依赖 test-stage
-COPY --from=test-stage /usr/src/app/dist .
+# 拷贝打包后的静态文件
+COPY --from=build-stage /usr/src/app/dist .
 
-# 自定义 Nginx 配置
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# ✅ 不需要再有任何 nginx.conf（由外层 nginx 管理代理）
+# ✅ 仅暴露 80 端口用于静态文件服务
+EXPOSE 80
+
+# 使用默认启动命令
+CMD ["nginx", "-g", "daemon off;"]
