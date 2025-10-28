@@ -3,8 +3,6 @@ services:
     build:
       context: ./todo-frontend # The context will pick this directory as the "build context"
       dockerfile: dev.Dockerfile # This will simply tell which dockerfile to read
-    ports:
-      - "5173:5173" # Vite 默认端口
     container_name: todo-frontend-dev-1 # This will name the container hello-front-dev
     volumes:
       - ./todo-frontend:/usr/src/app # 挂载本地代码到容器中 The path can be relative, so ./ is enough to say "the same location as the docker-compose.yml"
@@ -18,8 +16,6 @@ services:
       context: ./todo-backend
       dockerfile: dev.Dockerfile
     container_name: todo-backend-dev-1
-    ports:
-      - "3000:3000"
     volumes:
       - ./todo-backend:/usr/src/app
       - /usr/src/app/node_modules
