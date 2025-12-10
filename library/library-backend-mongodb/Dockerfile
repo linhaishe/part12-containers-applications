@@ -1,5 +1,5 @@
 # 使用 Node.js 运行环境
-FROM node:20-alpine
+FROM node:20
 
 WORKDIR /usr/src/app
 

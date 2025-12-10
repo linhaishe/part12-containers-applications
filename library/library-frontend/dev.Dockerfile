@@ -1,5 +1,5 @@
 # 使用官方 Node.js 20 版本
-FROM node:20-alpine
+FROM node:20
 
 # 设置工作目录
 WORKDIR /usr/src/app
