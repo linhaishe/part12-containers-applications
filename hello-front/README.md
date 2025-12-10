@@ -5,8 +5,10 @@ a small demo for docker
 1. run docker
 2. 进入对应的文件夹
 3. npm i
-4. 运行下面的命令
 5. docker pull node:20
+   1. 可以先运行这个命令，不然tcp链接有问题
+6. 运行下面的命令
+   
 
 # option 1
 # and run -  `docker build . -t hello-front`  - in bash to init image
